@@ -1,7 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-/*Use moore's voting algorithm. cancel occurrence of max element for each of the other elem in the array. If a majority exists it will be the last to remain*/
+/* 169. Majority Element
+Use moore's voting algorithm. cancel occurrence of max element for each of the other elem in the array. If a majority exists it will be the last to remain*/
 int majorityElement(int* nums, int numsSize) {
    int i=0,maj=0,count=1;
    for(i=1; i<numsSize;i++)
@@ -19,7 +20,8 @@ int majorityElement(int* nums, int numsSize) {
    return nums[maj];
 }
 
-/*Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times. The algorithm should run in linear time and in O(1) space.*/
+/*229. Majority Element II
+Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times. The algorithm should run in linear time and in O(1) space.*/
 //there can be max 2 elements with more than n/3 
 int* majorityElements(int* nums, int numsSize, int* returnSize) {
    int c1=0,c2=0,m1=0,m2=0,i=0;

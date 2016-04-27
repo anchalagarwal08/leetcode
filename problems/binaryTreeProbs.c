@@ -4,9 +4,9 @@ Given a binary tree, determine if it is height-balanced.
 
 For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
  */
-#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include <string.h>
 #include <stdbool.h>
 #include "node.h"
@@ -149,46 +149,42 @@ void rotate(int* nums, int numsSize, int k) {
 /*102. Binary Tree Level Order Traversal */
 void levelOrderTraverse(Node *root, int level, int *arr, int *size)
 {
-  if(root==NULL || level==0)
-    return;
-  if(level==1){
-    arr[(*size)++]=root->val;
-     printf("%d ,", arr[*(size-1)]);
-  }
-  levelOrderTraverse(root->left, level-1, arr, size);
-  levelOrderTraverse(root->right, level-1, arr, size);
+	if(root==NULL || level==0)
+		return;
+	if(level==1){
+		arr[*size]=root->val;
+		printf("%d ,", arr[*size]);
+		(*size)++;
+	}
+	levelOrderTraverse(root->left, level-1, arr, size);
+	levelOrderTraverse(root->right, level-1, arr, size);
 }
 int** levelOrder(Node* root, int** columnSizes, int* returnSize) {
-  int h = height(root);
-  int i=1,j=0, size=0, count=0;
-  int **arr = (int**)malloc(sizeof(int*)*(h+1));
-  *columnSizes = (int*)malloc(sizeof(int)*(h+1));
-  *returnSize=0;
-  for(i=1;i<=h;i++)
-  {
-    int *arr1= (int*)malloc(sizeof(int)*pow(2,h));
-    levelOrderTraverse(root, i, arr1, &size);
-  //  for(j=0;j<size;j++)
-  //  {
-    //  printf("%d ,", arr1[j]);
-   // }
-    printf("\n");
-    *columnSizes[count++]=size;
-    arr[*returnSize++]=arr1;
-    size=0;
-  }
-  (*returnSize)--;
-  return arr;
+	int h = height(root);
+	int i=1,j=0, size=0, count=0, returnsize=0;
+	int **arr = (int**)malloc(sizeof(int*)*(h+1));
+	*columnSizes = (int*)malloc(sizeof(int)*(h+1));
+	*returnSize=0;
+	for(i=1;i<=h;i++)
+	{
+		int *arr1= (int*)malloc(sizeof(int)*50);
+		levelOrderTraverse(root, i, arr1, &size);
+		*columnSizes[count++]=size;
+		arr[(*returnSize)++]=arr1;
+		size=0;
+	}
+	*returnSize = *returnSize-1;
+	return arr;
 }
 int main()
 {
-  int *arr = (int *)malloc(sizeof(int)*100);
-  Node *root = createBT();
-  //  printPathBT(root,arr, 0);
-//  mirrorBT(root);
- // printTree(root);
- int *column, returnSize=0;
- int **arr1 = levelOrder(root, &column, &returnSize);
- // printf("\nisBST=%d", (int)isBSTUtil(root, INT_MIN, INT_MAX));
-  return 0;
+	int *arr = (int *)malloc(sizeof(int)*100);
+	Node *root = createBT();
+	//  printPathBT(root,arr, 0);
+	//  mirrorBT(root);
+	// printTree(root);
+	int *column, returnSize=0;
+	int **arr1 = levelOrder(root, &column, &returnSize);
+	// printf("\nisBST=%d", (int)isBSTUtil(root, INT_MIN, INT_MAX));
+	return 0;
 }

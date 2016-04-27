@@ -2,7 +2,8 @@
 #include<stdio.h>
 #include <stdlib.h>
 #include "node.h"
-
+#include <limits.h>
+#include <stdbool.h>
 void printPath(int *arr, int length)
 {
   int i=0;
@@ -40,6 +41,16 @@ void mirrorBT(Node *root)
   root->right = tmp;
 }
 
+/*Find if Binary tree is a BST*/
+bool isBSTUtil(Node *root, int min, int max)
+{
+  if(root==NULL)
+    return true;
+  if(root->val<min || root->val>max)
+    return false;
+  else
+    return(isBSTUtil(root->left, min, root->val-1) && isBSTUtil(root->right, root->val+1, max));
+}
 int main()
 {
   int *arr = (int *)malloc(sizeof(int)*100);
@@ -47,5 +58,6 @@ int main()
 //  printPathBT(root,arr, 0);
   mirrorBT(root);
   printTree(root);
+  printf("\nisBST=%d", (int)isBSTUtil(root, INT_MIN, INT_MAX));
   return 0;
 }

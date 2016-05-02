@@ -1,21 +1,49 @@
 #include <stdio.h>
-#include <sdlib.h>
-#include <node.h>
-Node *insertBST(Node *n, int data)
+#include <string.h>
+#include <stdlib.h>
+#include "hashmap.h"
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
+
+/*325 Maximum Size Subarray Sum Equals k
+ * Given an array nums and a target value k, find the maximum length of a subarray that sums to k. If there isn’t one, return 0 instead.
+ * Example 1:
+ * Given nums = [1, -1, 5, -2, 3], k = 3, return 4. (because the subarray [1, -1, 5, -2] sums to 3 and is the longest)
+ * Example 2:
+ * Given nums = [-2, -1, 2, 1], k = 1, return 2. (because the subarray [-1, 2] sums to 1 and is the longest)*/
+
+int maxLen(int *arr, int k, int size)
 {
-  if(n==NULL)
-    return newNode(data);
-  if(data < n->val)
-    n->left = insert(n->left, data);
-  else
-    n->right = insert(n->right,data);
-  return n;
+  if(arr==NULL)
+    return 0;
+  if(size==1 && arr[0]==k)
+    return 1;
+  hashmap *hm = create_map(size);
+  int i =0, sum=0, maxlen=0;
+  Map *m=NULL;
+  for(i=0;i<size;i++)
+  {
+    sum+=arr[i];
+    if(arr[i]==k && maxlen==0)
+      maxlen=1;
+    if(sum==k)
+      maxlen = i+1;
+    if(!map_containsKey(hm, sum,m)) 
+      map_put(hm, sum, i);
+    if(map_contains(hm, sum-k, m))
+       maxlen = MAX(maxlen, i-m->value);
+  }
+  free(hm);
+  return maxlen;
 }
 
-Node *insertBT()
-{
-  Node *root = NULL;
-  root = newNode(root,7);
-  root->left = newNode
 
+int main()
+{
+  int arr[] = {-2, -1, 2, 1};
+  int n = sizeof(arr)/sizeof(arr[0]);
+  int k =1;
+  printf("Length of the longest sum subarray is %d \n", maxLen(arr, k, n));
+  return 0;
 }

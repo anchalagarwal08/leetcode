@@ -134,3 +134,43 @@ struct ListNode *detectCycle(struct ListNode *head) {
   }
   return NULL;
 }
+
+/*203. Remove Linked List Elements: Remove all elements from a linked list of integers that have value val.
+ * Example
+ * Given: 1 --> 2 --> 6 --> 3 --> 4 --> 5 --> 6, val = 6
+ * Return: 1 --> 2 --> 3 --> 4 --> 5*/
+
+struct ListNode* removeElements(struct ListNode* head, int val) {
+  if(!head)
+    return NULL;
+  if(head->next==NULL)
+  {
+    if(head->val==val)
+      return NULL;
+    else
+      return head;
+  }
+  struct ListNode *prev=NULL, *curr=head;
+  while(curr!=NULL)
+  {
+    if(curr->val==val)
+    {
+      if(prev==NULL)
+      {
+        head=curr->next;
+        curr->next=NULL;
+        curr=head;
+      }
+      else{
+        prev->next=curr->next;
+        curr=curr->next;
+      }
+    }
+    else{
+      prev=curr;
+      if(curr!=NULL)
+        curr=curr->next;
+    }
+  }
+  return head;
+}

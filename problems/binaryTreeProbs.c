@@ -176,6 +176,33 @@ int** levelOrder(Node* root, int** columnSizes, int* returnSize) {
 	*returnSize = *returnSize-1;
 	return arr;
 }
+
+void printPathArray(int *path, int size)
+{
+  int i=0;
+  printf("\n");
+  for(i=0;i<size;i++)
+    printf("%d ,", path[i]);
+}
+void hasPathSumHelper2(Node *root, int sum, int *pathArray, int size)
+{
+  if(root==NULL)
+    return;
+  int subsum=sum-root->val;
+  pathArray[size++]=root->val;
+  if(subsum==0 && root->left==NULL && root->right==NULL)
+    printPathArray(pathArray,size);
+  hasPathSumHelper2(root->left, subsum, pathArray, size);
+  hasPathSumHelper2(root->right, subsum, pathArray, size);
+}
+void pathSum2(Node* root, int sum) {
+  if(root==NULL)
+    return;
+  int *pathArray = (int *)malloc(sizeof(int)*100);
+  memset(pathArray, 0, 100);
+  int size=0;
+  hasPathSumHelper2(root, sum, pathArray, size);
+}
 int main()
 {
 	int *arr = (int *)malloc(sizeof(int)*100);
@@ -183,8 +210,9 @@ int main()
 	//  printPathBT(root,arr, 0);
 	//  mirrorBT(root);
 	// printTree(root);
-	int *column, returnSize=0;
-	int **arr1 = levelOrder(root, &column, &returnSize);
+//	int *column, returnSize=0;
+//	int **arr1 = levelOrder(root, &column, &returnSize);
 	// printf("\nisBST=%d", (int)isBSTUtil(root, INT_MIN, INT_MAX));
-	return 0;
+	pathSum2(root, 22);
+  return 0;
 }

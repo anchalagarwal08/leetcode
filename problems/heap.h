@@ -1,4 +1,3 @@
-
 typedef struct HeapNode{
   int elem;
   int arr_idx;
@@ -60,8 +59,8 @@ void insertMinHeap(maxheap *h, int val)
     return;
   h->arr[h->size]=val;
   (h->size)++;
-  int i =h->size -i;
-  while(i!=0 && h->arr[parent(i)]>h->arr[i])
+  int i = (h->size)-1;
+  while(i!=0 && h->arr[parent(i)] > h->arr[i])
   {
     swap(&h->arr[parent(i)], &h->arr[i]);
     i = parent(i);
@@ -91,9 +90,9 @@ void minHeapify(maxheap *h, int i)
   int l = 2*i+1;
   int r = 2*i+2;
   int smallest =i;
-  if(h->arr[l]<h->arr[i])
+  if(l<h->size && h->arr[i] > h->arr[l])
     smallest = l;
-  if(h->arr[r]<h->arr[smallest])
+  if(r<h->size && h->arr[smallest]>h->arr[r])
     smallest =r;
   if(smallest!=i)
   {

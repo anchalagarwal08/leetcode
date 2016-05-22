@@ -83,6 +83,25 @@ void mergeKSortedArrays1(int arr1[][n], int k)
   if(h)
     free(h);
 }
+void mergeKSortedArrays(int arr1[][n], int k)
+{
+    maxheap *h = createHeap(13);
+    int *output = (int *)malloc(sizeof(int)*n*k);
+    int i=0, j=0;
+    for(i=0;i<n;i++)
+    {
+      for(j=0;j<k;j++)
+      {
+	  insertMinHeap(h,arr1[j][i]); 
+      }
+    }
+    for(i=0;i<n*k;i++)
+    {
+      output[i]=extractMin(h);
+      printf("%d ,", output[i]);
+    }
+}
+
 int main()
 {
   int arr[][n] =  {{2, 6, 12, 34},

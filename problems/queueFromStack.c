@@ -72,23 +72,19 @@ void queuePush(Queue *queue, int element) {
      Node *n=(Node *)malloc(sizeof(Node));
      n->val=element;
      n->next=NULL;
-    if(!queue->head)
-    {
-        queue->head=n;
-    }
-    else if(queue->head->next==NULL)
-    {
-        queue->head->next=n;
-        queue->tail=queue->head->next;
-    }
-    else if(queue->size==queue->maxSize)
-    {
-        return;
-    }
-    else{
-        queue->tail->next=n;
-        queue->tail=queue->tail->next;
-    }
+     if(queue->size==queue->maxSize)
+     {
+       return;
+     }
+     else if(!queue->head)
+     {
+       queue->head=n;
+       queue->tail=head;
+     }
+     else{
+       queue->tail->next=n;
+       queue->tail=queue->tail->next;
+     }
     (queue->size)++;
 }
 
@@ -101,6 +97,7 @@ void queuePop(Queue *queue) {
         curr=queue->head;
         queue->head=curr->next;
         (queue->size)--;
+        curr->next=NULL;
         free(curr);
     }
 }

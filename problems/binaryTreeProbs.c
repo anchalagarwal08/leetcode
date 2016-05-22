@@ -203,6 +203,66 @@ void pathSum2(Node* root, int sum) {
   int size=0;
   hasPathSumHelper2(root, sum, pathArray, size);
 }
+
+/*314 Binary Tree Vertical Order Traversal.Print a Binary Tree in Vertical Order 
+ * eg:
+ *      1
+ *    /    \
+ *   2      3
+ *  / \    / \
+ * 4   5  6   7
+ *        \   \
+ *         8   9 
+The output of print this tree vertically will be:
+4
+2
+1 5 6
+3 8
+7
+9 
+
+The idea is to calculate the minumum and maximum horizontal distance from root to leftmost child and to rightmost child
+Horizontal distance(hd) of root = 0
+If you go left then hd = hd(of its parent)-1, and
+if you go right then hd = hd(of its parent)+1.
+
+Once you get maximum/minumum hd, print values at each distance
+*/
+
+void findMinMaxHd(Node *root, int *max, int *min, int hd)
+{
+  if(root==NULL)
+    return;
+  if(*min>hd)
+    *min=hd;
+  else if(*max<hd)
+    *max=hd;
+  findMinMaxHd(root->left, max, min, hd-1);
+  findMinMaxHd(root->right, max, min, hd+1);
+}
+
+void printVerticalOrder(Node *root, int line, int hd)
+{
+  if(root==NULL)
+    return;
+  if(line==hd)
+    printf("%d ,", root->val);
+  printVerticalOrder(root->left, line, hd-1);
+  printVerticalOrder(root->right, line, hd+1);
+}
+void verticalorder(Node *root)
+{
+  if(root==NULL)
+    return;
+  int i=0, max=0, min=0;
+  findMinMaxHd(root, &max, &min, 0);
+  printf("\n min=%d, max=%d\n", min, max);
+  for(i=min;i<=max;i++)
+  {
+    printVerticalOrder(root, i, 0);
+    printf("\n");
+  }
+}
 int main()
 {
 	int *arr = (int *)malloc(sizeof(int)*100);
@@ -213,6 +273,8 @@ int main()
 //	int *column, returnSize=0;
 //	int **arr1 = levelOrder(root, &column, &returnSize);
 	// printf("\nisBST=%d", (int)isBSTUtil(root, INT_MIN, INT_MAX));
-	pathSum2(root, 22);
+//	pathSum2(root, 22);
+  verticalorder(root);
   return 0;
 }
+

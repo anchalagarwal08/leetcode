@@ -33,13 +33,15 @@ Node *insertBST(Node *n, int data)
 
 Node *createBT()
 {
-  Node *root = newNode(7);
-  root->left = newNode(6);
-  root->right = newNode(4);
-  root->left->left = newNode(3);
-  root->left->right = newNode(2);
-  root->right->left = newNode(1);
-  root->right->right = newNode(5);
+  Node *root = newNode(5);
+  root->left = newNode(4);
+  root->right = newNode(8);
+  root->left->left = newNode(11);
+  root->left->left->left = newNode(7);
+  root->left->left->right = newNode(2);
+  root->right->left = newNode(13);
+  root->right->right = newNode(4);
+  root->right->right->left = newNode(5);
   return root;
 }
 

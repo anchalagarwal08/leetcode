@@ -5,6 +5,33 @@
  *     struct ListNode *next;
  * };
  */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+struct ListNode {
+  int val;
+  struct ListNode *next;
+};
+
+struct ListNode * createList()
+{
+  int i=0;
+  struct ListNode *head= (struct ListNode *)malloc(sizeof(struct ListNode));
+  head->val=1;
+  head->next=NULL;
+  struct ListNode *curr= head;
+  for(i=2;i<6;i++)
+  {
+    struct ListNode *node= (struct ListNode *)malloc(sizeof(struct ListNode));
+    node->val=i;
+    node->next=NULL;
+    curr->next=node;
+    curr=curr->next;
+  }
+  return head;
+}
+
 struct ListNode* swapPairs(struct ListNode* head) {
     if(!head)
         return NULL;
@@ -45,6 +72,22 @@ struct ListNode* reverseList(struct ListNode *head)
   printf("prev->val=%d", prev->val);
   return prev;
 }
+
+void reverseListRecursive(struct ListNode *current, struct ListNode **head)
+{
+  if(current==NULL)
+    return;
+  if(current->next==NULL)
+  {
+    *head=current;
+    return;
+  }
+  reverseListRecursive(current->next, head);
+  current->next->next=current;
+  current->next=NULL;
+  return;
+}
+
 int countNodes(struct ListNode *head)
 {
   if(!head)
@@ -173,4 +216,24 @@ struct ListNode* removeElements(struct ListNode* head, int val) {
     }
   }
   return head;
+}
+
+int main()
+{
+  struct ListNode *head = createList();
+  struct ListNode *curr=head, *tmp=NULL;
+  while(curr!=NULL)
+  {
+    printf("%d ->", curr->val);
+    curr=curr->next;
+  }
+  printf("\n");
+  reverseListRecursive(head, &tmp);
+  curr=tmp;
+  while(curr!=NULL)
+  {
+    printf("%d ->", curr->val);
+    curr=curr->next;
+  }
+
 }

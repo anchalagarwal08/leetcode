@@ -78,11 +78,32 @@ void merge(int* nums1, int m, int* nums2, int n) {
   }
 }
 
+
+int findPeak(int *arr, int start, int end)
+{
+  if(start>end)
+    return 0;
+  int mid = end - (end-start)/2;
+  if(arr[mid+1]<arr[mid] && arr[mid-1]<arr[mid])
+    return arr[mid];
+  else if(mid>0 && arr[mid-1]>arr[mid])
+    return findPeak(arr, start, mid-1);
+  else
+    return findPeak(arr, mid+1, end);
+}
+int findPeakElement(int* nums, int numsSize) {
+  if(!nums || numsSize==0)
+    return -1;
+  if(numsSize==1)
+    return nums[0];
+  return findPeak(nums, 0, numsSize);
+}
 int main()
 {
-  int arr[] = {15, -2, 2, -8, 1, 7, 10, 23};
+  int arr[] = {100, 20, 15, 2, 1, 9, 67, 80};
   int n = sizeof(arr)/sizeof(arr[0]);
   int k =0;
-  printf("Length of the longest sum subarray is %d \n", maxLen(arr, k, n));
+  //printf("Length of the longest sum subarray is %d \n", maxLen(arr, k, n));
+  printf("\n peak elem=%d\n",findPeakElement(arr,n-1));
   return 0;
 }

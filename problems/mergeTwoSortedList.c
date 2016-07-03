@@ -1,9 +1,10 @@
 #include<stdio.h>
 #include <stdlib.h>
+#include "node.h"
 struct ListNode{
 	int val;
 	struct ListNode *next;
-}
+};
 
 /**
  * Definition for singly-linked list.
@@ -126,4 +127,86 @@ struct ListNode* mergeTwoLists2(struct ListNode* l1, struct ListNode* l2) {
         }
     }
   return head;
+}
+
+void moveNode(Node **dest, Node ** src)
+{
+  Node *newNode = *src;
+  *src=newNode->next;
+  newNode->next=NULL;
+  (*dest)->next=newNode;
+}
+Node* merge2Lists(Node *list1, Node *list2)
+{
+  Node dummy;
+  Node *tail = &dummy;
+  dummy.next=NULL;
+  while(1)
+  {
+    if(list1==NULL)
+    {
+      tail->next=list2;
+      break;
+    }
+    if(list2==NULL)
+    {
+      tail->next=list1;
+      break;
+    }
+    if(list1->val<=list2->val)
+    {
+      moveNode(&tail, &list1);
+    }
+    else
+      moveNode(&tail, &list2); 
+    tail=tail->next;
+  }
+  return dummy.next;
+}
+Node* mergeKLists(Node** lists, int listsSize) {
+  if(lists==NULL)
+    return NULL;
+  int last=listsSize-1,i=0,j=0;
+  while(last!=0)
+  {
+    i=0;j=last;
+    while(i<j)
+    {
+      lists[i]=merge2Lists(lists[i],lists[j]);
+      i++;j--;
+      if(i>=j)
+        last=j;
+    }
+  }
+  return lists[0];
+}
+int main()
+{
+  int k = 3; // Number of linked lists
+  int n = 4; // Number of elements in each list
+  Node* arr[k];
+
+  arr[0] = newNode(1);
+  arr[0]->next = newNode(3);
+  arr[0]->next->next = newNode(5);
+  arr[0]->next->next->next = newNode(7);
+
+  arr[1] = newNode(2);
+  arr[1]->next = newNode(4);
+  arr[1]->next->next = newNode(6);
+  arr[1]->next->next->next = newNode(8);
+
+  arr[2] = newNode(0);
+  arr[2]->next = newNode(9);
+  arr[2]->next->next = newNode(10);
+  arr[2]->next->next->next = newNode(11);
+
+  // Merge all lists
+  Node* head = mergeKLists(arr, k);
+  while(head!=NULL)
+  {
+    printf(" %d->", head->val);
+    head=head->next;
+  }
+  return 0;
 }

@@ -22,39 +22,54 @@ int compareHeapCount(int a, int b)
     return 0;
   return (a<b ? -1 : 1);
 }
-int getMedian(int num, maxheap *l, maxheap *r)
+void getMedian(int num, int *median, heap *l, heap *r)/*l=maxheap, r=minheap*/
 {
   int median=0;
   int comp = compareHeapCount(l->size, r->size);
-  if(!comp)
-    median = (getHeapRoot(l)+getHeapRoot(r))/2;
-  else if(comp==-1)
-    median = getHeapRoot(r);
-  else
-    median = getHeapRoot(l);
-  if(num > median)
+  switch(comp)
   {
-      if(comp==-1)
+    /*left heap has less elements than right one*/
+    case -1:
+      if(num<*median)
       {
-        l->arr[size]=r->arr[0];
-        l->size=l->size+1;
-        r->arr[0]=r->arr[size-1];
-        r->size=r->size-1;
-        maxHeapify(l, 0);
+        insertMaxheap(l,num); //insert in left heap
       }
-      insertMinHeap(r, num);
-      minHeapify(r, 0);
+      else
+      {
+        int e = extractMin(r);
+        insertMaxHeap(l, e);
+        insertMinheap(r,num);
+      }
+      *median = average(getTop(l), getTop(r));
+      break;
+    case 0:
+      if(num<*median)
+      {
+        insertMaxHeap(l,num);
+        *median=getTop(l);
+      }
+      else
+      {
+        insertMinHeap(r,num);
+        *median=getTop(r);
+      }
+      break;
+    case 1:/*right heap has less elements than left*/
+      if(num<*median)
+      {
+        int e = extractMax(l);
+        insertMinHeap(r,e);
+        insertMaxHeap(l,num);
+
+      }
+      else
+      {
+        insertMinheap(r,num);
+      }
+      *median=average(getTop(l), getTop(r));
+    break;
+    default:
+      break;
   }
-  else{
-    if(comp==1)
-    {
-      r->arr[size]=l->arr[0];
-      r->size=r->size+1;
-      l->arr[0]=l->arr[size-1];
-      l->size=l->size-1;
-      minHeapify(r, 0);
-    }
-    insertHeap(l, num);
-    maxHeapify(l, 0);
-  }
+}
 }

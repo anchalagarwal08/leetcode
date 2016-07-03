@@ -1,10 +1,13 @@
-
+#ifndef _NODE_H
+#define _NODE_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 typedef struct node{
   struct node *left;
   struct node *right;
+  struct node *next; /*for populate inorder successor BT ques*/
+  int height; /*for AVL trees ques*/
   int val;
 }Node;
 Node *newNode(int val);
@@ -17,6 +20,8 @@ Node *newNode(int val)
   n->left=NULL;
   n->right=NULL;
   n->val =val;
+  n->height=0;//1;
+  n->next=NULL;
   return n;
 }
 
@@ -45,11 +50,67 @@ Node *createBT()
   return root;
 }
 
+
+Node *createBT2()
+{
+//this data for max diff from ancestor node
+  Node *root = newNode(8);
+  root->left = newNode(3);
+
+  root->left->left = newNode(1);
+  root->left->right = newNode(6);
+  root->left->right->left = newNode(4);
+  root->left->right->right = newNode(7);
+
+  root->right = newNode(10);
+  root->right->right = newNode(14);
+  root->right->right->left = newNode(13);
+  /*Node *root = newNode(3);
+  root->left = newNode(9);
+  root->right = newNode(3);
+  root->left->left = newNode(4);
+  root->left->right = newNode(5);
+  root->left->left->left = newNode(7);
+  root->right->right = newNode(6);
+  root->right->right->left = newNode(8);
+  */
+ /* Node *root = newNode(1);
+  root->left = newNode(2);
+  root->right = newNode(3);
+  root->left->left = newNode(4);
+  root->left->right = newNode(5);
+  root->right->left = newNode(6);
+  root->right->right = newNode(7);
+  root->left->left->left = newNode(8);
+  root->left->left->right = newNode(9);
+  root->left->right->left = newNode(12);
+  root->right->right->left = newNode(10);
+  root->right->right->left->right = newNode(11);
+  root->left->left->right->left = newNode(13);
+  root->left->left->right->right = newNode(14);
+  root->left->left->right->right->left = newNode(15);
+  */return root;
+}
+
+Node *createBT3()
+{
+  Node *root = newNode(1);
+  root->left = newNode(3);
+  root->right = newNode(2);
+  root->left->right = newNode(6);
+  root->right->left = newNode(25);
+  root->right->right = newNode(4);
+  return root;
+}
 Node *createBST()
 {
-  Node *root = insertBST(root, 8);
-  insertBST(root,5);
-  insertBST(root,4);
+  Node *root = newNode(10);
+  root->left = newNode(8);
+  root->left->left = newNode(7);
+  root->left->left->left = newNode(6);
+  root->left->left->left->left = newNode(5);
+ // insertBST(root,9);
+/*  insertBST(root,4);
   insertBST(root,7);
   insertBST(root,2);
   insertBST(root,14);
@@ -57,7 +118,7 @@ Node *createBST()
   insertBST(root,9);
   insertBST(root,11);
   insertBST(root,16);
-  return root;
+ */ return root;
 }
 
 void printTree(Node *root)
@@ -69,3 +130,4 @@ void printTree(Node *root)
   printTree(root->right);
 }
 
+#endif
